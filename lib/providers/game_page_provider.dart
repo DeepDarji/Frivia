@@ -42,7 +42,50 @@ class GamePageProvider extends ChangeNotifier {
     bool isCorrect =
         questions![_currentQuestionCount]["correct_answer"] == _answer;
     _currentQuestionCount++;
-    print(isCorrect ? "Correct" : "InCorrect");
-    notifyListeners();
+    showDialog(
+      context: context,
+      builder: (BuildContext _context) {
+        return AlertDialog(
+          backgroundColor: isCorrect ? Colors.green : Colors.red,
+          title: Icon(
+            isCorrect ? Icons.check_circle : Icons.cancel_sharp,
+            color: Colors.blue,
+          ),
+        );
+      },
+    );
+    await Future.delayed(
+      const Duration(seconds: 1),
+    );
+    Navigator.pop(context);
+    if (_currentQuestionCount == _maxQuestions) {
+      endGame();
+    } else {
+      notifyListeners();
+    }
+  }
+
+  Future<void> endGame() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext _context) {
+        return const AlertDialog(
+          backgroundColor: Colors.blue,
+          title: Text(
+            "End Game!",
+            style: TextStyle(
+              fontSize: 25,
+              color: Colors.white,
+            ),
+          ),
+          content: Text("Score: 0/0"),
+        );
+      },
+    );
+    await Future.delayed(
+      const Duration(seconds: 3),
+    );
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 }
