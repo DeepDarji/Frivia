@@ -22,16 +22,24 @@ class GamePage extends StatelessWidget {
     return Builder(
       builder: (_context) {
         _pageProvider = _context.watch<GamePageProvider>();
-        return Scaffold(
-          body: SafeArea(
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: _devieHeight! * 0.05,
+        if (_pageProvider!.questions != null) {
+          return Scaffold(
+            body: SafeArea(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: _devieHeight! * 0.05,
+                ),
+                child: _gameUI(),
               ),
-              child: _gameUI(),
             ),
-          ),
-        );
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Colors.red,
+            ),
+          );
+        }
       },
     );
   }
@@ -57,9 +65,9 @@ class GamePage extends StatelessWidget {
   }
 
   Widget _questionText() {
-    return const Text(
-      "Test Question 1, Nothing Interesting",
-      style: TextStyle(
+    return Text(
+      _pageProvider!.getCurrentQuestionText(),
+      style: const TextStyle(
         color: Colors.black,
         fontSize: 25,
         fontWeight: FontWeight.w400,
@@ -69,7 +77,9 @@ class GamePage extends StatelessWidget {
 
   Widget _trueButton() {
     return MaterialButton(
-      onPressed: () {},
+      onPressed: () {
+        _pageProvider?.answerQuestion("True");
+      },
       color: Colors.green,
       minWidth: _deviceWidth! * 0.80,
       height: _devieHeight! * 0.10,
@@ -85,7 +95,9 @@ class GamePage extends StatelessWidget {
 
   Widget _falseButton() {
     return MaterialButton(
-      onPressed: () {},
+      onPressed: () {
+        _pageProvider?.answerQuestion("False");
+      },
       color: Colors.red,
       minWidth: _deviceWidth! * 0.80,
       height: _devieHeight! * 0.10,

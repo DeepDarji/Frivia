@@ -9,6 +9,8 @@ class GamePageProvider extends ChangeNotifier {
 
   List? questions;
 
+  int _currentQuestionCount = 0;
+
   BuildContext context;
   GamePageProvider({required this.context}) {
     _dio.options.baseUrl = 'https://opentdb.com/api.php';
@@ -29,5 +31,18 @@ class GamePageProvider extends ChangeNotifier {
       _response.toString(),
     );
     questions = _data["results"];
+    notifyListeners();
+  }
+
+  String getCurrentQuestionText() {
+    return questions![_currentQuestionCount]["question"];
+  }
+
+  void answerQuestion(String _answer) async {
+    bool isCorrect =
+        questions![_currentQuestionCount]["correct_answer"] == _answer;
+    _currentQuestionCount++;
+    print(isCorrect ? "Correct" : "InCorrect");
+    notifyListeners();
   }
 }
