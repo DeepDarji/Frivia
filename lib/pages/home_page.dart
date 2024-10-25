@@ -10,6 +10,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   double? _devieHeight, _deviceWidth;
 
+  double _currentDifficultyLevel = 0;
+
+  final List<String> _difficultyText = ["Easy", "Medium", "Hard"];
+
   @override
   Widget build(BuildContext context) {
     _devieHeight = MediaQuery.of(context).size.height;
@@ -23,7 +27,10 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
-              children: [_appTitl()],
+              children: [
+                _appTitle(),
+                _difficultySlider(),
+              ],
             ),
           ),
         ),
@@ -31,9 +38,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _appTitl() {
+  Widget _appTitle() {
     return Column(
-      children: const [
+      children: [
         const Text(
           "Frivia",
           style: TextStyle(
@@ -42,7 +49,29 @@ class _HomePageState extends State<HomePage> {
             fontWeight: FontWeight.w500,
           ),
         ),
+        Text(
+          _difficultyText[_currentDifficultyLevel.toInt()],
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ],
     );
+  }
+
+  Widget _difficultySlider() {
+    return Slider(
+        label: "Difficulty",
+        min: 0,
+        max: 2,
+        divisions: 2,
+        value: _currentDifficultyLevel,
+        onChanged: (_value) {
+          setState(() {
+            _currentDifficultyLevel = _value;
+          });
+        });
   }
 }
