@@ -48,7 +48,7 @@ To run this project locally, follow these steps:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/frivia_app.git
+   git clone https://github.com/DeepDarji/Frivia.git
    cd frivia_app
    ```
 
