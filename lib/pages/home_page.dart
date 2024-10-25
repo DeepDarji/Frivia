@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frivia/pages/game_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -30,6 +31,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 _appTitle(),
                 _difficultySlider(),
+                _startButton(),
               ],
             ),
           ),
@@ -63,15 +65,43 @@ class _HomePageState extends State<HomePage> {
 
   Widget _difficultySlider() {
     return Slider(
-        label: "Difficulty",
-        min: 0,
-        max: 2,
-        divisions: 2,
-        value: _currentDifficultyLevel,
-        onChanged: (_value) {
-          setState(() {
+      label: "Difficulty",
+      min: 0,
+      max: 2,
+      divisions: 2,
+      value: _currentDifficultyLevel,
+      onChanged: (_value) {
+        setState(
+          () {
             _currentDifficultyLevel = _value;
-          });
-        });
+          },
+        );
+      },
+    );
+  }
+
+  Widget _startButton() {
+    return MaterialButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext) {
+              return GamePage();
+            },
+          ),
+        );
+      },
+      color: Colors.blue,
+      minWidth: _deviceWidth! * 0.80,
+      height: _devieHeight! * 0.10,
+      child: const Text(
+        "Start",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 25,
+        ),
+      ),
+    );
   }
 }
